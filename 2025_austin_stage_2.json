@@ -1,0 +1,16 @@
+{
+  "systems": {
+    "valve": "lambda x: x",
+    "hltv": "lambda x: x"
+  },
+
+  "sigma": {
+    "valve": 600,
+    "hltv": 1600
+  },
+
+  "teams": {
+    
+    }
+  }
+}
