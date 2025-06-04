@@ -28,6 +28,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator
     from pathlib import Path
 
+
 @dataclass(frozen=True)
 class Team:
     """
@@ -37,12 +38,10 @@ class Team:
         id: 队伍唯一标识符
         name: 队伍名称
         seed: 种子排名
-        rating: 评分元组 (VRS评分, HLTV评分)
     """
     id: int
     name: str
     seed: int
-    rating: tuple[int, ...]
 
     def __str__(self) -> str:
         return str(self.name)
@@ -213,12 +212,12 @@ class SwissSystem:
 
         # 第一轮特殊处理（1-9, 2-10, 3-11等）
         if len(even_teams) == len(self.records):
-            for a, b in zip(even_teams, even_teams[len(even_teams) // 2 :]):
+            for a, b in zip(even_teams, even_teams[len(even_teams) // 2:]):
                 self.simulate_match(a, b)
         else:
             # 每组内按种子排名安排对阵
             for group in [pos_teams, even_teams, neg_teams]:
-                second_half = reversed(group[len(group) // 2 :])
+                second_half = reversed(group[len(group) // 2:])
                 for a, b in zip(group, second_half):
                     self.simulate_match(a, b)
 
@@ -258,11 +257,7 @@ class Simulation:
             Team(
                 id=next(auto_id),
                 name=team_k,
-                seed=team_v["seed"],
-                rating=tuple(
-                    (eval(sys_v))(team_v[sys_k])  # noqa: S307
-                    for sys_k, sys_v in data["systems"].items()
-                ),
+                seed=team_v["seed"]
             )
             for team_k, team_v in data["teams"].items()
         }
@@ -313,7 +308,8 @@ class Simulation:
             }
 
             # 记录这个组合
-            key = f"3-0: {', '.join(sim_result['3-0'])} | 3-1/3-2: {', '.join(sim_result['3-1/3-2'])} | 0-3: {', '.join(sim_result['0-3'])}"
+            key = (f"3-0: {', '.join(sim_result['3-0'])} | 3-1/3-2: {', '.join(sim_result['3-1/3-2'])}"
+                   f" | 0-3: {', '.join(sim_result['0-3'])}")
             all_combinations[key] = all_combinations.get(key, 0) + 1
 
         # 将组合结果添加到第一个队伍的结果中
@@ -374,7 +370,7 @@ def format_results(results: dict[Team, Result], n: int, run_time: float) -> list
     # 输出组合统计
     all_combinations = list(results.values())[0].pickem_results
     sorted_combinations = sorted(all_combinations.items(), key=lambda x: x[1], reverse=True)
-    filename = f"combinations.txt"
+    filename = f"distributions.txt"
     with open(filename, 'w', encoding='utf-8') as f:
         for combination, count in sorted_combinations:
             f.write(f"{combination}: {count}/{n} ({count/n*100:.4f}%)\n")
@@ -385,19 +381,19 @@ def format_results(results: dict[Team, Result], n: int, run_time: float) -> list
 
 if __name__ == "__main__":
     # 直接使用2025_austin_stage_1.json文件
-    teams_path = "2025_austin_stage_1.json"
-    wm_path = "winrate.json"
-    wm_bo3_path = "winrate-bo3.json"
+    path_teams = "2025_austin_stage_1.json"
+    path_winrate = "winrate.json"
+    path_winrate_bo3 = "winrate-bo3.json"
 
     # 加载胜率矩阵
-    win_matrix = load_win_matrix(wm_path)
-    win_matrix_bo3 = load_win_matrix(wm_bo3_path)
+    win_matrix = load_win_matrix(path_winrate)
+    win_matrix_bo3 = load_win_matrix(path_winrate_bo3)
 
-    n_iterations = 10000000  # 增加迭代次数以获得更准确的结果
+    n_iterations = 1000  # 增加迭代次数以获得更准确的结果
     n_cores = max(1, cpu_count() - 1)  # 保留一个核心给系统使用
 
     # 运行模拟并打印格式化结果
     start = perf_counter_ns()
-    results = Simulation(teams_path).run(n_iterations, n_cores)
+    results = Simulation(path_teams).run(n_iterations, n_cores)
     run_time = (perf_counter_ns() - start) / 1_000_000_000
     print("\n".join(format_results(results, n_iterations, run_time)))

@@ -1,11 +1,11 @@
 """
 CS2 Major Pick'Em 模拟器配置文件
-包含：参数配置、队伍类定义、胜率计算、胜率矩阵生成等功能
+包含：参数配置、队伍类定义、胜率矩阵生成等功能
 """
 
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import TYPE_CHECKING, Tuple, List, Dict
+from typing import TYPE_CHECKING, List, Dict
 import json
 import sys
 
@@ -21,12 +21,10 @@ class Team:
         id: 队伍唯一标识符
         name: 队伍名称
         seed: 种子排名
-        rating: 评分元组 (VRS评分, HLTV评分)
     """
     id: int
     name: str
     seed: int
-    rating: Tuple[int, ...]
 
     def __str__(self) -> str:
         return str(self.name)
@@ -126,15 +124,10 @@ def load_teams(file_path: str) -> List[Team]:
     
     teams = []
     for i, (team_name, team_data) in enumerate(data["teams"].items()):
-        rating = tuple(
-            (eval(sys_v))(team_data[sys_k])  # noqa: S307
-            for sys_k, sys_v in data["systems"].items()
-        )
         teams.append(Team(
             id=i,
             name=team_name,
-            seed=team_data["seed"],
-            rating=rating
+            seed=team_data["seed"]
         ))
     
     return teams
@@ -160,20 +153,20 @@ def load_win_matrix(file_path: str) -> Dict[str, Dict[str, float]]:
 
 def main():
     """主函数，用于测试配置和函数"""
-    teams_path = "2025_austin_stage_1.json"
-    wm_path = "winrate.json"
-    wm_bo3_path = "winrate-bo3.json"
+    path_teams = "2025_austin_stage_1.json"
+    path_winrate = "winrate.json"
+    path_winrate_bo3 = "winrate-bo3.json"
     try:
         # 加载队伍数据
-        teams = load_teams(teams_path)
+        teams = load_teams(path_teams)
         # 加载胜率矩阵
-        win_matrix = load_win_matrix(wm_path)
-        win_matrix_bo3 = load_win_matrix(wm_bo3_path)
+        win_matrix = load_win_matrix(path_winrate)
+        win_matrix_bo3 = load_win_matrix(path_winrate_bo3)
 
         # 测试打印胜率矩阵
-        print(f"BO1")
+        print("BO1")
         print_win_matrix(win_matrix, teams)
-        print(f"\nBO3")
+        print("\nBO3")
         print_win_matrix(win_matrix_bo3, teams)
 
     except FileNotFoundError:
@@ -181,7 +174,7 @@ def main():
     except json.JSONDecodeError:
         print(f"错误：不是有效的JSON文件")
     except Exception as e:
-        print(f"发生错误：")
+        print(f"发生错误：{str(e)}")
 
 
 if __name__ == "__main__":

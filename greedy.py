@@ -6,12 +6,13 @@ CS2 Major Pick'Em 贪心算法
 from collections import defaultdict
 import re
 import itertools
-from typing import List, Dict, Tuple
+from typing import List, Dict
 from config import Team, win_probability
 
-file_path = "combinations.txt"  # 替换为您的文件路径
+path_distributions = "distributions.txt"  # 替换为您的文件路径
 
-def parse_simulation_results(file_path: str) -> dict:
+
+def parse_simulation_results(file_path: str) -> tuple:
     """
     解析模拟结果文件，返回每个组合及其出现频率的字典
     格式: {('3-0': set, '3-1/3-2': set, '0-3': set): frequency}
@@ -36,7 +37,7 @@ def parse_simulation_results(file_path: str) -> dict:
     return results, total_simulations
 
 
-def calculate_team_probabilities(teams: List[Team]) -> Dict[str, float]:
+def calculate_team_probabilities(teams: List[Team]) -> Dict[str, dict[str, float]]:
     """
     计算每个队伍获得3-0、3-1/3-2、0-3战绩的概率
 
@@ -44,7 +45,7 @@ def calculate_team_probabilities(teams: List[Team]) -> Dict[str, float]:
         teams: 队伍列表
 
     Returns:
-        Dict[str, float]: 每个队伍获得不同战绩的概率
+        Dict[str, dict[str, float]]: 每个队伍获得不同战绩的概率
     """
     probabilities = {}
 
@@ -224,7 +225,7 @@ def main():
     teams = load_teams("2025_austin_stage_1.json")
 
     # 寻找最优组合
-    best_combination, best_probability, all_results = find_optimal_combination(file_path, teams)
+    best_combination, best_probability, all_results = find_optimal_combination(path_distributions, teams)
 
     # 打印前10个组合
     print("最佳竞猜组合:")
