@@ -1,0 +1,67 @@
+{
+  "teams": {
+    "Falcons": {
+      "seed": 1
+    },
+
+    "FaZe": {
+      "seed": 2
+    },
+
+    "3DMAX": {
+      "seed": 3
+    },
+
+    "Virtus.pro": {
+      "seed": 4
+    },
+
+    "paiN": {
+      "seed": 5
+    },
+
+    "FURIA": {
+      "seed": 6
+    },
+
+    "MIBR": {
+      "seed": 7
+    },
+
+    "M80": {
+      "seed": 8
+    },
+
+    "placeholder1": {
+      "seed": 9
+    },
+
+    "placeholder2": {
+      "seed": 10
+    },
+
+    "placeholder3": {
+      "seed": 11
+    },
+
+    "placeholder4": {
+      "seed": 12
+    },
+
+    "placeholder5": {
+      "seed": 13
+    },
+
+    "placeholder6": {
+      "seed": 14
+    },
+
+    "placeholder7": {
+      "seed": 15
+    },
+
+    "placeholder8": {
+      "seed": 16
+    }
+  }
+}
