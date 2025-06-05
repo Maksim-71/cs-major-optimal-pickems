@@ -9,7 +9,7 @@ import itertools
 from typing import List, Dict
 from config import Team, win_probability
 
-path_distributions = "distributions.txt"  # 替换为您的文件路径
+path_distributions = "distributions.txt"
 
 
 def parse_simulation_results(file_path: str) -> tuple:

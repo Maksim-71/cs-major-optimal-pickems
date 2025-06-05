@@ -28,6 +28,13 @@ if TYPE_CHECKING:
     from collections.abc import Generator
     from pathlib import Path
 
+path_teams = "2025_austin_stage_1.json"
+path_winrate = "winrate.json"
+path_winrate_bo3 = "winrate-bo3.json"
+
+n_iterations = 1000  # 增加迭代次数以获得更准确的结果
+n_cores = max(1, cpu_count() - 1)  # 保留一个核心给系统使用
+
 
 @dataclass(frozen=True)
 class Team:
@@ -380,17 +387,9 @@ def format_results(results: dict[Team, Result], n: int, run_time: float) -> list
 
 
 if __name__ == "__main__":
-    # 直接使用2025_austin_stage_1.json文件
-    path_teams = "2025_austin_stage_1.json"
-    path_winrate = "winrate.json"
-    path_winrate_bo3 = "winrate-bo3.json"
-
     # 加载胜率矩阵
     win_matrix = load_win_matrix(path_winrate)
     win_matrix_bo3 = load_win_matrix(path_winrate_bo3)
-
-    n_iterations = 1000  # 增加迭代次数以获得更准确的结果
-    n_cores = max(1, cpu_count() - 1)  # 保留一个核心给系统使用
 
     # 运行模拟并打印格式化结果
     start = perf_counter_ns()

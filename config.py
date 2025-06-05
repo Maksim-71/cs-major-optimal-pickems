@@ -12,6 +12,10 @@ import sys
 if TYPE_CHECKING:
     from pathlib import Path
 
+path_teams = "2025_austin_stage_1.json"
+path_winrate = "winrate.json"
+path_winrate_bo3 = "winrate-bo3.json"
+
 
 @dataclass(frozen=True)
 class Team:
@@ -153,9 +157,6 @@ def load_win_matrix(file_path: str) -> Dict[str, Dict[str, float]]:
 
 def main():
     """主函数，用于测试配置和函数"""
-    path_teams = "2025_austin_stage_1.json"
-    path_winrate = "winrate.json"
-    path_winrate_bo3 = "winrate-bo3.json"
     try:
         # 加载队伍数据
         teams = load_teams(path_teams)
