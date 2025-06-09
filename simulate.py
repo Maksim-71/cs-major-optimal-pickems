@@ -28,11 +28,11 @@ if TYPE_CHECKING:
     from collections.abc import Generator
     from pathlib import Path
 
-path_teams = "2025_austin_stage_1.json"
+path_teams = "2025_austin_stage_2.json"
 path_winrate = "winrate.json"
 path_winrate_bo3 = "winrate-bo3.json"
 
-n_iterations = 1000  # 增加迭代次数以获得更准确的结果
+n_iterations = 1000000  # 增加迭代次数以获得更准确的结果
 n_cores = max(1, cpu_count() - 1)  # 保留一个核心给系统使用
 
 
@@ -224,9 +224,66 @@ class SwissSystem:
         else:
             # 每组内按种子排名安排对阵
             for group in [pos_teams, even_teams, neg_teams]:
-                second_half = reversed(group[len(group) // 2:])
-                for a, b in zip(group, second_half):
-                    self.simulate_match(a, b)
+                if len(group) != 6:
+                    second_half = reversed(group[len(group) // 2:])
+                    for a, b in zip(group, second_half):
+                        self.simulate_match(a, b)
+                else:
+                    # 实现按优先级进行对阵安排的逻辑
+                    priorities = [
+                        [(0, 5), (1, 4), (2, 3)],  # 优先级1
+                        [(0, 5), (1, 3), (2, 4)],  # 优先级2
+                        [(0, 4), (1, 5), (2, 3)],  # 优先级3
+                        [(0, 4), (1, 3), (2, 5)],  # 优先级4
+                        [(0, 3), (1, 5), (2, 4)],  # 优先级5
+                        [(0, 3), (1, 4), (2, 5)],  # 优先级6
+                        [(0, 5), (1, 2), (3, 4)],  # 优先级7
+                        [(0, 4), (1, 2), (3, 5)],  # 优先级8
+                        [(0, 2), (1, 5), (3, 4)],  # 优先级9
+                        [(0, 2), (1, 4), (3, 5)],  # 优先级10
+                        [(0, 3), (1, 2), (4, 5)],  # 优先级11
+                        [(0, 2), (1, 3), (4, 5)],  # 优先级12
+                        [(0, 1), (2, 5), (3, 4)],  # 优先级13
+                        [(0, 1), (2, 4), (3, 5)],  # 优先级14
+                        [(0, 1), (2, 3), (4, 5)],  # 优先级15
+                    ]
+                    matches = self.get_next_priority(group, priorities)
+                    for a, b in matches:
+                        self.simulate_match(a, b)
+
+    def get_next_priority(self, group: list[Team], priorities: list[tuple[tuple[int, int], ...]])\
+            -> list[tuple[Team, Team]]:
+        """
+        根据优先级生成对阵列表
+
+        Args:
+            group: 当前队伍分组
+            priorities: 优先级列表
+
+        Returns:
+            list[tuple[Team, Team]]: 对阵列表
+        """
+        for priority in priorities:
+            matches = []
+            for (a, b) in priority:
+                if not self.has_played_before(group[a], group[b]):
+                    matches.append((group[a], group[b]))
+            if len(matches) == len(priority):
+                return matches
+        return []
+
+    def has_played_before(self, team_a: Team, team_b: Team) -> bool:
+        """
+        检查两支队伍是否已经交手过
+
+        Args:
+            team_a: 队伍A
+            team_b: 队伍B
+
+        Returns:
+            bool: 是否已经交手过
+        """
+        return team_b in self.records[team_a].teams_faced
 
     def simulate_tournament(self) -> None:
         """模拟整个比赛阶段，直到所有队伍都完成比赛"""
