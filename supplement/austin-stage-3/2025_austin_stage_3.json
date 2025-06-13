@@ -1,66 +1,66 @@
 {
   "teams": {
-    "Falcons": {
+    "Vitality": {
       "seed": 1
     },
 
-    "FaZe": {
+    "MOUZ": {
       "seed": 2
     },
 
-    "3DMAX": {
+    "Spirit": {
       "seed": 3
     },
 
-    "Virtus.pro": {
+    "G2": {
       "seed": 4
     },
 
-    "paiN": {
+    "The Mongolz": {
       "seed": 5
     },
 
-    "FURIA": {
+    "Aurora": {
       "seed": 6
     },
 
-    "MIBR": {
+    "Natus Vincere": {
       "seed": 7
     },
 
-    "M80": {
+    "Liquid": {
       "seed": 8
     },
 
-    "B8": {
+    "Legacy": {
       "seed": 9
     },
 
-    "HEROIC": {
+    "Virtus.pro": {
       "seed": 10
     },
 
-    "BetBoom": {
+    "paiN": {
       "seed": 11
     },
 
-    "OG": {
+    "3DMAX": {
       "seed": 12
     },
 
-    "Nemiga": {
+    "FURIA": {
       "seed": 13
     },
 
-    "Lynn Vision": {
+    "FaZe": {
       "seed": 14
     },
 
-    "Legacy": {
+    "Nemiga": {
       "seed": 15
     },
 
-    "TYLOO": {
+    "Lynn Vision": {
       "seed": 16
     }
   }

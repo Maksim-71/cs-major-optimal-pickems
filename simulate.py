@@ -28,11 +28,11 @@ if TYPE_CHECKING:
     from collections.abc import Generator
     from pathlib import Path
 
-path_teams = "2025_austin_stage_2.json"
+path_teams = "2025_austin_stage_3.json"
 path_winrate = "winrate.json"
 path_winrate_bo3 = "winrate-bo3.json"
 
-n_iterations = 1000000  # 增加迭代次数以获得更准确的结果
+n_iterations = 10000000  # 增加迭代次数以获得更准确的结果
 n_cores = max(1, cpu_count() - 1)  # 保留一个核心给系统使用
 
 

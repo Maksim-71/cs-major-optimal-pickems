@@ -9,6 +9,7 @@ import itertools
 from typing import List, Dict
 from config import Team, win_probability
 
+path_teams = "2025_austin_stage_3.json"
 path_distributions = "distributions.txt"
 
 
@@ -222,7 +223,7 @@ def main():
     from config import load_teams
 
     # 加载队伍数据
-    teams = load_teams("2025_austin_stage_1.json")
+    teams = load_teams(path_teams)
 
     # 寻找最优组合
     best_combination, best_probability, all_results = find_optimal_combination(path_distributions, teams)

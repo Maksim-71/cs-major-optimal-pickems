@@ -12,9 +12,9 @@ import sys
 if TYPE_CHECKING:
     from pathlib import Path
 
-path_teams = "2025_austin_stage_1.json"
-path_winrate = "winrate.json"
-path_winrate_bo3 = "winrate-bo3.json"
+path_teams = "supplement/austin-stage-2/2025_austin_stage_3.json"
+path_winrate = "supplement/austin-stage-2/winrate.json"
+path_winrate_bo3 = "supplement/austin-stage-2/winrate-bo3.json"
 
 
 @dataclass(frozen=True)
