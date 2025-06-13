@@ -1,0 +1,67 @@
+{
+  "teams": {
+    "Vitality": {
+      "seed": 1
+    },
+
+    "MOUZ": {
+      "seed": 2
+    },
+
+    "Spirit": {
+      "seed": 3
+    },
+
+    "G2": {
+      "seed": 4
+    },
+
+    "The Mongolz": {
+      "seed": 5
+    },
+
+    "Aurora": {
+      "seed": 6
+    },
+
+    "Natus Vincere": {
+      "seed": 7
+    },
+
+    "Liquid": {
+      "seed": 8
+    },
+
+    "Legacy": {
+      "seed": 9
+    },
+
+    "Virtus.pro": {
+      "seed": 10
+    },
+
+    "paiN": {
+      "seed": 11
+    },
+
+    "3DMAX": {
+      "seed": 12
+    },
+
+    "FURIA": {
+      "seed": 13
+    },
+
+    "FaZe": {
+      "seed": 14
+    },
+
+    "Nemiga": {
+      "seed": 15
+    },
+
+    "Lynn Vision": {
+      "seed": 16
+    }
+  }
+}
